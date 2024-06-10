@@ -50,7 +50,7 @@ public class DiscordBridgeMod {
     public void onServerStarted(ServerStartedEvent event) {
         server = event.getServer();
         try {
-            jda = JDABuilder.createDefault("YOUR_DISCORD_BOT_TOKEN").build().awaitReady();
+            jda = JDABuilder.createDefault("MTI0OTc2Mzk4NDExMTA0NjY2Ng.GwKinJ.Mj2FKbYBCuf6qZH-VYnaoWtACJP_woqrKpdpOU").build().awaitReady();
             jda.addEventListener(new DiscordListener());
         } catch (InterruptedException e) {
             LOGGER.error("Initialization interrupted", e);
@@ -70,7 +70,7 @@ public class DiscordBridgeMod {
     @SubscribeEvent
     public void onServerChat(ServerChatEvent event) {
         if (jda != null) {
-            jda.getTextChannelById("YOUR_DISCORD_CHANNEL_ID")
+            jda.getTextChannelById("1249764682999533609")
                     .sendMessage(event.getUsername() + ": " + event.getMessage())
                     .queue();
         }
@@ -83,7 +83,7 @@ public class DiscordBridgeMod {
                 return;
             }
 
-            if (event.getChannel().getId().equals("YOUR_DISCORD_CHANNEL_ID")) {
+            if (event.getChannel().getId().equals("1249764682999533609")) {
                 Component message = new TextComponent(event.getAuthor().getName() + ": " + event.getMessage().getContentDisplay());
                 PlayerList playerList = server.getPlayerList();
                 playerList.broadcastMessage(message, net.minecraft.network.chat.ChatType.SYSTEM, UUID.randomUUID());

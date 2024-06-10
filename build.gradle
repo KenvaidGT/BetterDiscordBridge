@@ -1,15 +1,17 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url 'https://maven.minecraftforge.net' }
         mavenCentral()
         jcenter()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.48' // Указана конкретная версия
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.48'
+
     }
 }
 
 plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
     id 'java'
     id 'eclipse'
     id 'maven-publish'
@@ -90,7 +92,8 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
-    implementation 'net.dv8tion:JDA:5.0.0-alpha.19'
+    // compileOnly 'net.dv8tion:JDA:5.0.0-beta.24' // Используем compileOnly для добавления в dev environment
+    implementation 'net.dv8tion:JDA:5.0.0-beta.24' // Используем implementation для добавления в built jar
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -125,3 +128,13 @@ publishing {
 }
 
 jar.finalizedBy('reobfJar')
+
+// Создаем новую конфигурацию compileOnlyResolvable
+configurations {
+    compileOnlyResolvable.extendsFrom(compileOnly).setCanBeResolved(true)
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    configurations = [project.configurations.compileOnlyResolvable] // Используем compileOnlyResolvable
+}
